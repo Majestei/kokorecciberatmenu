@@ -3,18 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF Viewer</title>
+<title>PDF Menü</title>
 
 <style>
     body {
         margin: 0;
         background: #111;
+        padding: 20px 0;
     }
+
+    .page {
+        margin-bottom: 30px;
+        border-bottom: 2px dashed #444;
+        padding-bottom: 30px;
+    }
+
     canvas {
         display: block;
         margin: 0 auto;
         width: 100% !important;
         height: auto !important;
+        background: #fff;
+        box-shadow: 0 8px 25px rgba(0,0,0,.4);
+        border-radius: 6px;
     }
 </style>
 </head>
@@ -28,20 +39,23 @@ const url = 'menu.pdf';
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-const loadingTask = pdfjsLib.getDocument(url);
-loadingTask.promise.then(pdf => {
+pdfjsLib.getDocument(url).promise.then(pdf => {
     for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
         pdf.getPage(pageNum).then(page => {
             const scale = 1.5;
             const viewport = page.getViewport({ scale });
 
+            const wrapper = document.createElement("div");
+            wrapper.className = "page";
+
             const canvas = document.createElement("canvas");
             const context = canvas.getContext("2d");
 
-            canvas.height = viewport.height;
             canvas.width = viewport.width;
+            canvas.height = viewport.height;
 
-            document.body.appendChild(canvas);
+            wrapper.appendChild(canvas);
+            document.body.appendChild(wrapper);
 
             page.render({
                 canvasContext: context,
