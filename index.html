@@ -135,20 +135,17 @@
     const modal = document.getElementById('welcome-modal');
     const closeBtn = document.getElementById('close-btn');
 
-    // Kapatma Fonksiyonu
     function closeModal() {
         modal.classList.add('hidden');
-        // Animasyon bitince elementin tıklanmasını tamamen engellemek için
         setTimeout(() => {
             modal.style.display = 'none';
         }, 500);
     }
 
-    // Butona tıklandığında kapat
     closeBtn.addEventListener('click', closeModal);
 
-    // 3 saniye (3000 ms) sonra otomatik kapat
-    setTimeout(closeModal, 3000);
+    // Otomatik kapanma süresi 5 saniyeye (5000ms) ayarlandı
+    setTimeout(closeModal, 5000);
 </script>
 
 </body>
